@@ -7,23 +7,6 @@ output: html_document
 
 ### Homework 1
 
-```{r, echo=FALSE, eval=FALSE}
-First R Exercises
-Show all code and outputs in any problems below that use R. 3 points per problem. Show all of your work. Read each question completely before answering. You’d be surprised how many people miss details…
-
-Free 3 points - complete this homework in Rmarkdown!
-
-Create a vector of 100 randomly distributed numbers between 0 and 100 using runif and save the vector into the variable my_vec. If you cannot figure out runif, try ?runif. What information does str and summary tell you about my_vec? How do they differ?
-
-Try out a little plot. What does hist(my_vec) show you? What information does the helpfile for hist tell you about what you just did?
-
-Load up the mtcars data set using data(mtcars). Apply the following functions to mtcars: class, str, summary. What do these three functions tell you about mtcars?
-
-Look at the help file for the class data.frame. What does it tell you about these objects?
-
-What are you thinking about working with for your final project? Give me a brief description of your current idea. I know this might be early, but I’m guessing you’ve got something in mind.
-```
-
 #### Question 1
 Create a vector of 100 randomly distributed numbers between 0 and 100 using runif and save the vector into the variable my_vec. If you cannot figure out runif, try ?runif. What information does str and summary tell you about my_vec? How do they differ?
 
@@ -33,13 +16,13 @@ my_vec
 str(my_vec)
 ```
 
-str() tells me that I have a numeric vector of length 100, and gives me the first five values within the vector.  
+str tells me that I have a numeric vector of length 100, and gives me the first five values within the vector.  
 
 ```{r}
 summary(my_vec)
 ```
 
-Summary on the other hand tells me more information about my vector in terms of the vector as a whole including the minimum, maximum, and median values, as well as the values between those values (i.e. the quartiles).
+summary on the other hand tells me more information about my vector in terms of the vector as a whole including the minimum, maximum, and median values, as well as the values between those values (i.e. the quartiles).
 
 #### Question 2
 Try out a little plot. What does hist(my_vec) show you? What information does the helpfile for hist tell you about what you just did?
@@ -69,7 +52,7 @@ str(mtcars)
 summary(mtcars)
 ```
 
-Class tells me that mtcars is a data frame.  Str also tells me that mtcars is a data frame and that it contains 32 objects of 11 variables, listing the variables by name and the first set of values for each variable.  Lastly, summary summarizes each variable (therefore treating each variable as a vector) as with my_vec in question 1, giving me the minimum, maximum, and median values, and the values of each quartile. 
+class tells me that mtcars is a data frame.  str also tells me that mtcars is a data frame and that it contains 32 objects of 11 variables, listing the variables by name and the first set of values for each variable.  Lastly, summary summarizes each variable (therefore treating each variable as a vector) as with my_vec in question 1, giving me the minimum, maximum, and median values, and the values of each quartile. 
 
 #### Question 4
 Look at the help file for the class data.frame. What does it tell you about these objects?
@@ -83,7 +66,7 @@ It describes what a data frame is, which R describes as "tightly coupled collect
 #### Question 5
 What are you thinking about working with for your final project? Give me a brief description of your current idea. I know this might be early, but I’m guessing you’ve got something in mind.
 
-For my final project, I will develop a detailed plan for my research moving forward (i.e. option number one in the Final Project Description).  I will in detail lay out all future research goals, and the data analyses that will allow me to acheive these goals.  This will include relevant methodologies, sample size, and statistial operations to answer my research questions.  Specifically, I have some new ideas for research that I will be discussing with you in our next meeting that will pertain to this project. ;) 
+For my final project, I will develop a detailed plan for my research moving forward (i.e. option number one in the Final Project Description).  I will in detail lay out all future research goals, and the data analyses that will allow me to acheive these goals.  This will include relevant methodologies, sample size, and statistical analyses to answer my research questions.  Specifically, I have some new ideas for research that I will be discussing with you in our next meeting that will pertain to this project. ;)
 
 
 
