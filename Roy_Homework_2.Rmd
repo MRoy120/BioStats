@@ -1,0 +1,172 @@
+---
+title: "Roy_HW_2"
+author: "Michael Roy"
+date: "September 15, 2016"
+output: html_document
+---
+
+## Homework 2
+
+```{r, message=FALSE, warning=FALSE}
+library("dplyr")
+```
+
+### Question 1: Sample Properties
+Consider the vasopressin levels in voles
+
+```{r}
+vole_vaso <- c(98,96,94,88,86,82,77,74,70,60,
+           59,52,50,47,40,35,29,13,6,5)
+str(vole_vaso)
+```
+
+#### 1a. 
+Say “Vole vasopressin” 10 times as fast as you can. How many times did you trip up?
+
+Twice :)
+
+#### 1b. 
+What is the mean, median, sd, and interquartile range of the sample?
+
+```{r}
+#Mean
+mean(vole_vaso)
+
+#Median
+median(vole_vaso)
+
+#Standard Deviation
+sd(vole_vaso)
+
+#Interquartile Range
+IQR(vole_vaso)
+```
+
+#### 1c. 
+What is the standard error of the mean (do this with a formula!)?
+
+```{r}
+# As assigned by operators
+vv_sd <- sd(vole_vaso)
+vv_sqrt <- sqrt(20)
+SE <- vv_sd/vv_sqrt
+SE
+
+# Just the formula
+SE_2 <- sd(vole_vaso)/sqrt(20)
+SE_2
+```
+
+#### 1d. 
+What does the standard error of the mean tell you about our estimate of the mean values of the population of vole vassopressin?
+
+Standard error tells us the variability of the mean, which is a calculated quantity from the estimate of the mean of a sample. In other words, we now know that the mean vasopresin levels in voles deviates by 6.65, both positively and negatively.  The larger the standard error, the more variable is your mean, which could mean that you study a highly variable system, or that you need to go and conduct more samples to dampen the variability in your estimate of the average vasoprasin levels in voles.
+
+### Question 2: Sample Size for Upper Quartiles
+We can get the upper quartile value of vassopressin with
+
+```{r, eval=FALSE}
+quantile(vole_vaso, probs = 0.75)
+```
+
+Let's assume sample is representative of the popuation
+
+#### 2a. 
+Use sample to get just one resample with a sample size of 10. What is its upper quartile?
+
+```{r}
+#Set the seed
+set.seed(20)
+
+#One resample of the vole_vaso with a sample size of 10
+vole_sample <- sample(vole_vaso, size = 10, replace = TRUE)
+
+#Determine the upper quartile of the sample
+quantile(vole_sample, probs = 0.75)
+```
+
+The upper quartile is 80.75
+
+#### 2b. 
+Build an initial data frame for simulations with the sample sizes 5 through 20. Have 100 simulations per sample size.
+
+```{r}
+#Create a data frame called vole_df that simulates sample sizes between 5 and 20 100 times
+vole_df <- data.frame(
+  samp_size = rep(5:20, times = 100))
+
+#Add the column sim_number to my data frame vole_df
+vole_df$sim_number = 1:nrow(vole_df)
+
+#Find the first 16 values using head
+head(vole_df, n = 16)
+```
+
+#### 2c. 
+Use this data frame to get simulated upper quartiles for each sample size.
+
+```{r}
+#Set my seed
+set.seed(20)
+
+#Create a new column to my data frame vole_df called quartile_sim:
+#It determines the upper quartile for each simulation
+vole_df <- vole_df %>%
+ group_by(sim_number) %>%
+ mutate(quartile_sim = quantile(sample(vole_vaso, size = samp_size, replace = TRUE),
+                                probs = 0.75))
+
+#Getting the values of my new data frame
+vole_df
+```
+
+#### 2d. 
+With a plot, make a guesstimate as to the best sample size for estimating the upper quartile of the population.
+
+```{r}
+#Plot sample_size versus quantile_sim to determine roughly the best sample size for estimating the upper quartile of the population
+plot(quartile_sim ~ samp_size, data = vole_df)
+```
+
+Best Sample:
+12 because the variation in the upper quartiles narrows towards the end of the graph after 12.
+
+### Question 3: SE and CI
+
+#### 3a. 
+With the upper quartile simulations, calculate the SD for each sample size using dplyr
+
+```{r}
+#Determine the standard deviation of each sample size across all simulations
+vole_sd_values <- vole_df %>% 
+  group_by(samp_size) %>%
+  summarise(sd_vole = sd(quartile_sim)) %>%
+  ungroup()
+vole_sd_values
+```
+
+#### 3b. 
+What does this value, the standard error of the upper quartile, mean?
+
+As with 1d, the standard error of the upper quartiles of these simulated samples tells us by how much does the values of the upper quartiles determined for each sample size varies with each repeated simulation.  This metric is useful in simulations because we can use it to better understand variation in each sample size to target the 'best' sample size for our study to limit the bias in variation in what we are sampling.
+
+#### 3c. 
+What is the CI of the upper quartile with a sample size of 10. What does this mean?
+
+```{r}
+#The standard Deviation
+vole_sample_sd <- data.frame(vole_sd_values[6, 2]/(sqrt(vole_sd_values[6, 1])))
+rename(vole_sample_sd, SD = sd_vole)
+```
+
+```{r}
+#The confidence interval
+vole_sample_CI <- vole_sample_sd * 1.96
+rename(vole_sample_CI, CI = sd_vole)
+```
+
+This means that we are 95% confident that our upper quartile values fall within a range of 8.17 plus or minus the mean.  This gives us an indication of how well we are estimating the true upper quartile range of our samples.
+
+#### 3e.
+
+
